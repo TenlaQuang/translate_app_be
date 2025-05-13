@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translation History</title>
+</head>
+<body>
+  <h1>Translation History</h1>
+  <br>
+  <!-- Button để quay lại trang users -->
+  <button onclick="window.location.href='/users'">Back to User Management</button>
+
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Input Text</th>
+      <th>Source Language</th>
+      <th>Target Language</th>
+      <th>Translated Text</th>
+      <th>Time</th>
+      <th>Translated By</th> <!-- Cột tên người dịch -->
+    </tr>
+    <% history.forEach(entry => { %>
+      <tr>
+        <td><%= entry.id %></td>
+        <td><%= entry.input_text %></td>
+        <td><%= entry.source_lang %></td>
+        <td><%= entry.target_lang %></td>
+        <td><%= entry.translated_text %></td>
+        <td><%= entry.translated_at %></td>
+        <td><%= entry.username %></td> <!-- Hiển thị tên người dịch -->
+      </tr>
+    <% }) %>
+  </table>
+
+ 
+</body>
+</html>

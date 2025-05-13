@@ -306,3 +306,22 @@ app.get('/delete-user/:id', (req, res) => {
   });
 });
 
+// Route để lấy lịch sử dịch từ của người dùng
+app.get('/history/:userId', (req, res) => {
+  const userId = req.params.userId;
+
+  // Truy vấn lịch sử dịch với thông tin người dùng (username)
+  const sql = `
+    SELECT t.id, t.input_text, t.source_lang, t.target_lang, t.translated_text, t.translated_at, u.username 
+    FROM translations t
+    JOIN users u ON t.user_id = u.user_id
+    WHERE t.user_id = ? 
+    ORDER BY t.translated_at DESC
+  `;
+  
+  db.query(sql, [userId], (err, results) => {
+    if (err) throw err;
+    res.render('history', { history: results });  // Render trang lịch sử
+  });
+});
+
