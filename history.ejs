@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translation History</title>
+  <style>
+   /* Đảm bảo giao diện thích ứng với mọi kích thước màn hình */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+  margin: 0;
+  padding: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 100vh;
+  flex-direction: column;
+}
+
+/* Chỉnh sửa container */
+.container {
+  width: 90%; /* Đặt chiều rộng của container là 90% */
+  max-width: 1200px; /* Giới hạn chiều rộng tối đa */
+  padding: 0 20px; /* Thêm khoảng cách ở hai bên */
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+  box-sizing: border-box;
+  overflow-x: auto;  /* Cho phép cuộn ngang nếu bảng vượt quá */
+}
+
+/* Cải thiện bảng hiển thị người dùng */
+table {
+  width: 100%; /* Đảm bảo bảng chiếm hết chiều rộng của container */
+  margin-top: 20px;
+  border-collapse: collapse;
+  table-layout: auto; /* Đảm bảo bảng tự động điều chỉnh kích thước các cột */
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  word-wrap: break-word; /* Cho phép ngắt từ khi cần thiết */
+}
+
+/* Nút và hiệu ứng hover */
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+/* Form thêm người dùng - popup */
+.add-user-form {
+  display: none;  /* Ẩn form */
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  width: 400px;  /* Đặt chiều rộng của popup */
+  text-align: center;
+}
+
+.add-user-form.active {
+  display: block;  /* Hiển thị form khi toggle */
+}
+
+.add-user-form input, .add-user-form button {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+/* Popup overlay */
+.popup-overlay {
+  display: none;  /* Ẩn overlay */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu nền mờ */
+  z-index: 998;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  button {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .add-user-form input, .add-user-form button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 24px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 12px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Translation History</h1>
+    <!-- Button to go back to user management -->
+    <button onclick="window.location.href='/users'">Back to User Management</button>
+
+    <!-- Table to display translation history -->
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Input Text</th>
+        <th>Source Language</th>
+        <th>Target Language</th>
+        <th>Translated Text</th>
+        <th>Time</th>
+        <th>Translated By</th> <!-- Cột tên người dịch -->
+      </tr>
+      <% history.forEach(entry => { %>
+        <tr>
+          <td><%= entry.id %></td>
+          <td><%= entry.input_text %></td>
+          <td><%= entry.source_lang %></td>
+          <td><%= entry.target_lang %></td>
+          <td><%= entry.translated_text %></td>
+          <td><%= entry.translated_at %></td>
+          <td><%= entry.username %></td> <!-- Hiển thị tên người dịch -->
+        </tr>
+      <% }) %>
+    </table>
+  </div>
+
+</body>
+</html>
