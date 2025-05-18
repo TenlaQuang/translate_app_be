@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Translation Stats</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <h1>Translation Statistics</h1>
+  <button onclick="window.location.href='/users'">Back to User Management</button>
+
+  <!-- Biểu đồ số lượng dịch theo ngày -->
+  <canvas id="translationsChart" width="400" height="200"></canvas>
+
+  <script>
+    // Lấy dữ liệu từ API backend
+    fetch('/stats')
+      .then(response => response.json())
+      .then(data => {
+        const dates = data.map(item => item.date);  // Ngày
+        const counts = data.map(item => item.translations_count);  // Số lượng dịch
+
+        // Vẽ biểu đồ sử dụng Chart.js
+        const ctx = document.getElementById('translationsChart').getContext('2d');
+        const translationsChart = new Chart(ctx, {
+          type: 'line',  // Loại biểu đồ (line, bar, etc.)
+          data: {
+            labels: dates,  // Gán nhãn cho trục X (ngày)
+            datasets: [{
+              label: 'Number of Translations',  // Tiêu đề biểu đồ
+              data: counts,  // Số lượng dịch trong ngày
+              borderColor: 'rgba(75, 192, 192, 1)',
+              borderWidth: 1,
+              fill: false
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: 'Date'
+                }
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: 'Number of Translations'
+                },
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  </script>
+
+</body>
+</html>
